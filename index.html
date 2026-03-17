@@ -140,32 +140,53 @@
     <div class="destination">Canarsie–Rockaway Pkwy</div>
     <div class="countdown">18 min</div>
   </div>
-    <script>
+  <script>
+    const SERVER = 'https://l-train-server.onrender.com';
 
-    // This function reads the current time and updates the clock
     function updateClock() {
-
-        // Get the current date and time from the browser
-        const now = new Date();
-
-        // Pull out hours and minutes as numbers
-        const hours = now.getHours();
-        const minutes = now.getMinutes();
-
-        // Pad with a zero if needed — so 9 becomes "09"
-        const h = String(hours).padStart(2, '0');
-        const m = String(minutes).padStart(2, '0');
-
-        // Find the clock element and update its text
-        document.getElementById('clock').textContent = h + ':' + m;
+      const now = new Date();
+      const h = String(now.getHours()).padStart(2, '0');
+      const m = String(now.getMinutes()).padStart(2, '0');
+      document.getElementById('clock').textContent = h + ':' + m;
     }
 
-    // Run it once immediately so the clock shows on page load
+    function minsFromNow(timestamp, now) {
+      return Math.round((timestamp - now) / 60);
+    }
+
+    function buildRows(times, now) {
+      if (times.length === 0) return '<div class="train-row">No trains found</div>';
+      return times.map(t => {
+        const mins = minsFromNow(t, now);
+        const label = mins <= 1 ? 'ARR' : mins + ' min';
+        return `
+          <div class="train-row">
+            <div class="bullet">L</div>
+            <div class="destination">8 Av</div>
+            <div class="countdown">${label}</div>
+          </div>`;
+      }).join('');
+    }
+
+    async function fetchTrains() {
+      try {
+        const res = await fetch(SERVER + '/arrivals');
+        const data = await res.json();
+
+        document.getElementById('manhattan-rows').innerHTML =
+          buildRows(data.manhattan, data.now);
+        document.getElementById('canarsie-rows').innerHTML =
+          buildRows(data.canarsie, data.now).replace(/8 Av/g, 'Canarsie–Rockaway Pkwy');
+
+      } catch (err) {
+        console.error('Failed to fetch trains:', err);
+      }
+    }
+
     updateClock();
-
-    // Then run it every 60 seconds to keep it current
     setInterval(updateClock, 60000);
-
-    </script>
+    fetchTrains();
+    setInterval(fetchTrains, 30000);
+  </script>
 </body>
 </html>
