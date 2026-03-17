@@ -105,41 +105,17 @@
 
 <body>
 
-  <!-- HEADER -->
-  <div class="header">
-    <div class="badge">L</div>
-    <div class="station-name">Bedford Av</div>
-    <div class="clock" id="clock"></div>
-  </div>
-  <!-- TO MANHATTAN -->
-  <div class="direction-label">TO MANHATTAN</div>
+<div class="header">
+  <div class="badge">L</div>
+  <div class="station-name">Montrose Ave</div>
+  <div class="clock" id="clock"></div>
+</div>
 
-  <div class="train-row">
-    <div class="bullet">L</div>
-    <div class="destination">8 Av</div>
-    <div class="countdown">3 min</div>
-  </div>
+<div class="direction-label">TO MANHATTAN</div>
+<div id="manhattan-rows"></div>
 
-  <div class="train-row">
-    <div class="bullet">L</div>
-    <div class="destination">8 Av</div>
-    <div class="countdown">11 min</div>
-  </div>
-
-  <!-- TO CANARSIE -->
-  <div class="direction-label">TO CANARSIE</div>
-
-  <div class="train-row">
-    <div class="bullet">L</div>
-    <div class="destination">Canarsie–Rockaway Pkwy</div>
-    <div class="countdown">7 min</div>
-  </div>
-
-  <div class="train-row">
-    <div class="bullet">L</div>
-    <div class="destination">Canarsie–Rockaway Pkwy</div>
-    <div class="countdown">18 min</div>
-  </div>
+<div class="direction-label">TO CANARSIE</div>
+<div id="canarsie-rows"></div>
   <script>
     const SERVER = 'https://l-train-server.onrender.com';
 

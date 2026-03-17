@@ -16,10 +16,10 @@ app.use((req, res, next) => {
 // The MTA feed URL for the L train
 const MTA_URL = 'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-l';
 
-// L train stop IDs for Bedford Av
+// L train stop IDs for Montrose Ave
 // L06N = northbound (to Manhattan), L06S = southbound (to Canarsie)
-const STOP_N = 'L06N';
-const STOP_S = 'L06S';
+const STOP_N = 'L12N';
+const STOP_S = 'L12S';
 
 app.get('/arrivals', async (req, res) => {
   try {
