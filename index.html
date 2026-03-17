@@ -126,23 +126,24 @@
       document.getElementById('clock').textContent = h + ':' + m;
     }
 
-    function minsFromNow(timestamp, now) {
+    function minsFromNow(timestamp) {
+      const now = Math.floor(Date.now() / 1000);
       return Math.round((timestamp - now) / 60);
     }
 
-    function buildRows(times, now) {
-      if (times.length === 0) return '<div class="train-row">No trains found</div>';
-      return times.map(t => {
-        const mins = minsFromNow(t, now);
-        const label = mins <= 1 ? 'ARR' : mins + ' min';
-        return `
-          <div class="train-row">
-            <div class="bullet">L</div>
-            <div class="destination">8 Av</div>
-            <div class="countdown">${label}</div>
-          </div>`;
-      }).join('');
-    }
+    function buildRows(times) {
+  if (times.length === 0) return '<div class="train-row">No trains found</div>';
+  return times.map(t => {
+    const mins = minsFromNow(t);
+    const label = mins <= 1 ? 'ARR' : mins + ' min';
+    return `
+      <div class="train-row">
+        <div class="bullet">L</div>
+        <div class="destination">8 Av</div>
+        <div class="countdown">${label}</div>
+      </div>`;
+  }).join('');
+}
 
     async function fetchTrains() {
       try {
@@ -150,9 +151,9 @@
         const data = await res.json();
 
         document.getElementById('manhattan-rows').innerHTML =
-          buildRows(data.manhattan, data.now);
+          buildRows(data.manhattan);
         document.getElementById('canarsie-rows').innerHTML =
-          buildRows(data.canarsie, data.now).replace(/8 Av/g, 'Canarsie–Rockaway Pkwy');
+          buildRows(data.canarsie).replace(/8 Av/g, 'Canarsie–Rockaway Pkwy');
 
       } catch (err) {
         console.error('Failed to fetch trains:', err);
